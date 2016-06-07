@@ -1,14 +1,35 @@
 language: ruby
-script: bundle exec rake test
 sudo: false
+script: bundle exec rake test
 cache:
   - bundler
 rvm:
   - 2.0
   - 2.1
   - 2.2
+install: travis_wait bundle install --jobs=7 --retry=3 --deployment --path=vendor/bundle
 matrix:
   fast_finish: true
   include:
     - rvm: 1.9.3
       gemfile: gemfiles/chef-11.6/Gemfile
+    - rvm: 2.2
+      sudo: required
+      services: [docker]
+      script: bundle exec kitchen test --destroy=always
+      env: KAFKA_VERSION=0.8.1.1 KITCHEN_YAML=.kitchen.docker.yml
+    - rvm: 2.2
+      sudo: required
+      services: [docker]
+      env: KAFKA_VERSION=0.8.2.2 KITCHEN_YAML=.kitchen.docker.yml
+      script: bundle exec kitchen test --destroy=always
+    - rvm: 2.2
+      sudo: required
+      services: [docker]
+      env: KAFKA_VERSION=0.9.0.1 KITCHEN_YAML=.kitchen.docker.yml
+      script: bundle exec kitchen test --destroy=always
+    - rvm: 2.2
+      sudo: required
+      services: [docker]
+      env: KAFKA_VERSION=0.10.0.0 KITCHEN_YAML=.kitchen.docker.yml
+      script: bundle exec kitchen test --destroy=always
