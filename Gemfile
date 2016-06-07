@@ -7,7 +7,7 @@ end
 
 group :test do
   gem 'berkshelf'
-  gem 'chefspec'
+  gem 'chefspec', '= 4.0.2'
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
   gem 'kitchen-docker'
